@@ -2,12 +2,23 @@ package org.tron.common.zksnark;
 
 class Libarkworks {
     private static final LibarkworksJNI INSTANCE = new LibarkworksJNI();
+    private static final int FIELD_ELEMENT_SIZE = 32;
 
     public boolean libarkworksG1IsValid(byte[] x, byte[] y) {
+        if (x.length != FIELD_ELEMENT_SIZE || y.length != FIELD_ELEMENT_SIZE) {
+            return false;
+        }
         return INSTANCE.libarkworksG1IsValid(x, y);
     }
         
     public boolean libarkworksG2IsValid(byte[] a, byte[] b, byte[] c, byte[] d) {
+        if (a.length != FIELD_ELEMENT_SIZE || 
+            b.length != FIELD_ELEMENT_SIZE ||
+            c.length != FIELD_ELEMENT_SIZE || 
+            d.length != FIELD_ELEMENT_SIZE) 
+        {
+            return false;
+        }
         return INSTANCE.libarkworksG2IsValid(a, b, c, d);
     }
     

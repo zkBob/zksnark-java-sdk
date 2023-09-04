@@ -16,16 +16,15 @@ package org.tron.common.zksnark;
 import org.tron.common.util.Utils;
 
 public class LibarkworksWrapper {
-    private static final Libarkworks INSTANCE = new Libarkworks();
+  private static final Libarkworks INSTANCE = new Libarkworks();
 
-    static {
-        Utils.LIBRARY.load();
-    }
+  static {
+    Utils.LIBRARY.load();
+  }
 
-    private LibarkworksWrapper() throws IllegalAccessException
-    {
-        throw new IllegalAccessException();
-    }
+  private LibarkworksWrapper() throws IllegalAccessException {
+    throw new IllegalAccessException();
+  }
 
   public static Libarkworks getInstance() {
     return INSTANCE;
