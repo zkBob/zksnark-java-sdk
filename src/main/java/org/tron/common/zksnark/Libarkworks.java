@@ -2,22 +2,13 @@ package org.tron.common.zksnark;
 
 class Libarkworks {
     private static final LibarkworksJNI INSTANCE = new LibarkworksJNI();
-    private static final int FIELD_ELEMENT_SIZE = 32;
 
     public boolean libarkworksG1IsValid(byte[] x, byte[] y) {
-        return INSTANCE.libarkworksG1IsValid(
-            padLeft(x, FIELD_ELEMENT_SIZE), 
-            padLeft(y, FIELD_ELEMENT_SIZE)
-        );
+        return INSTANCE.libarkworksG1IsValid(x, y);
     }
         
     public boolean libarkworksG2IsValid(byte[] a, byte[] b, byte[] c, byte[] d) {
-        return INSTANCE.libarkworksG2IsValid(
-            padLeft(a, FIELD_ELEMENT_SIZE), 
-            padLeft(b, FIELD_ELEMENT_SIZE), 
-            padLeft(c, FIELD_ELEMENT_SIZE), 
-            padLeft(d, FIELD_ELEMENT_SIZE)
-        );
+        return INSTANCE.libarkworksG2IsValid(a, b, c, d);
     }
     
     public boolean libarkworksAddG1(byte[] a, byte[] b, byte[] result) {
@@ -38,15 +29,6 @@ class Libarkworks {
 
     public void libarkworksRandomG2(byte[] g2) {
         INSTANCE.libarkworksRandomG2(g2);
-    }
-
-    private static byte[] padLeft(byte[] array, int length) {
-        if (array.length >= length) {
-            return array;
-        }
-        byte[] result = new byte[length];
-        System.arraycopy(array, 0, result, length - array.length, array.length);
-        return result;
     }
 
     private static class LibarkworksJNI {        
