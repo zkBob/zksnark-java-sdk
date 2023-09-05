@@ -10,7 +10,10 @@ extern "C" {
     typedef uint8_t codeunit;
 #endif
 
-    bool libarkworks_g1_is_valid(const unsigned char *x, const unsigned char *y);
+    bool libarkworks_g1_is_valid(
+        const unsigned char *x, 
+        const unsigned char *y
+    );
     
     bool libarkworks_g2_is_valid(
         const unsigned char *a, 

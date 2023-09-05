@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 
 project(zksnark-java-sdk)
+# this line allow to include both libarkworks and librustzcash in the same project
 set(LINK_FLAGS "-Wl,--allow-multiple-definition")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

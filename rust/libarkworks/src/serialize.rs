@@ -1,8 +1,6 @@
-use ark_ec::short_weierstrass::{Affine, SWCurveConfig, SWFlags};
+use ark_ec::short_weierstrass::{Affine, SWCurveConfig};
 use ark_ff::BigInteger256;
-use ark_serialize::{
-    CanonicalDeserialize, CanonicalSerialize, Compress, Flags, SerializationError,
-};
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize, Compress, SerializationError};
 
 use crate::FIELD_ELEMENT_SIZE;
 
@@ -32,19 +30,18 @@ impl<P: SWCurveConfig> EthSerializeDeserialize for Affine<P> {
     }
 
     fn eth_deserialize(serialized: &[u8]) -> Result<Self, SerializationError> {
-        let mut serialized = convert_to_little_endian(serialized);
-        restore_flags(&mut serialized);
+        if is_zero_vec(serialized) {
+            return Ok(Affine::identity());
+        }
+        let serialized = convert_to_little_endian(serialized);
         Self::deserialize_uncompressed(&serialized[..])
     }
 
     fn eth_deserialize_unchecked(serialized: &[u8]) -> Result<Self, SerializationError> {
-        // It doesn't look correct, CHECK IT
-        // Now it is necessary to produce the same behaviour as in the native implementation
-        if serialized.is_empty() || serialized.iter().all(|e| *e == 0) {
+        if is_zero_vec(serialized) {
             return Ok(Affine::identity());
         }
-        let mut serialized = convert_to_little_endian(serialized);
-        restore_flags(&mut serialized);
+        let serialized = convert_to_little_endian(serialized);
         Self::deserialize_uncompressed_unchecked(&serialized[..])
     }
 }
@@ -57,11 +54,6 @@ impl EthSerializeDeserialize for BigInteger256 {
     }
 
     fn eth_deserialize(serialized: &[u8]) -> Result<Self, SerializationError> {
-        // It doesn't look correct, CHECK IT
-        // Now it is necessary to produce the same behaviour as in the native implementation
-        if serialized.is_empty() {
-            return Ok(BigInteger256::zero());
-        }
         let serialized = convert_to_little_endian(serialized);
         Self::deserialize_uncompressed(&serialized[..])
     }
@@ -72,15 +64,10 @@ impl EthSerializeDeserialize for BigInteger256 {
 }
 
 fn clear_flags(serialized: &mut Vec<u8>) {
+    // we can clear flags since it is possible to
+    // restore points without them
     let last = serialized.len() - 1;
     serialized[last] &= 0b00111111;
-}
-
-fn restore_flags(serialized: &mut Vec<u8>) {
-    let last = serialized.len() - 1;
-    if is_zero_vec(serialized) {
-        serialized[last] |= SWFlags::PointAtInfinity.u8_bitmask();
-    }
 }
 
 fn is_zero_vec(vec: &[u8]) -> bool {

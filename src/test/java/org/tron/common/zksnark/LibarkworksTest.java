@@ -1,5 +1,6 @@
 package org.tron.common.zksnark;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -129,28 +130,22 @@ public class LibarkworksTest {
 
     @Test
     public void libarkworksPairingCheck() {
-        // TODO: add valid pairing test
-        int pairs = 4;
-        byte[] g1s = new byte[0];
-        byte[] g2s = new byte[0];
-
-        for (int i = 0; i < pairs; i++) {
-            byte[] g1 = new byte[64];
-            LibarkworksWrapper.getInstance().libarkworksRandomG1(g1);
-            g1s = concat(g1s, g1);
-            
-            byte[] g2 = new byte[128];
-            LibarkworksWrapper.getInstance().libarkworksRandomG2(g2);
-            g2s = concat(g2s, g2);
-        }
-
+        int pairs = 2;
+        byte[] g1s = hexToBytes("1c76476f4def4bb94541d57ebba1193381ffa7aa76ada664dd31c16024c43f593034dd2920f673e204fee2811c678745fc819b55d3e9d294e45c9b03a76aef41111e129f1cf1097710d41c4ac70fcdfa5ba2023c6ff1cbeac322de49d1b6df7c2032c61a830e3c17286de9462bf242fca2883585b93870a73853face6a6bf411");
+        byte[] g2s = hexToBytes("04bf11ca01483bfa8b34b43561848d28905960114c8ac04049af4b6315a41678209dd15ebff5d46c4bd888e51a93cf99a7329636c63514396b4a452003a35bf7120a2a4cf30c1bf9845f20c6fe39e07ea2cce61f0c9bb048165fe5e4de8775502bb8324af6cfc93537a2ad1a445cfd0ca2a71acd7ac41fadbf933c2a51be344d1800deef121f1e76426a00665e5c4479674322d4f75edadd46debd5cd992f6ed198e9393920d483a7260bfb731fb5d25f1aa493335a9e71297e485b7aef312c212c85ea5db8c6deb4aab71808dcb408fe3d1e7690c43d37b4ce6cc0166fa7daa090689d0585ff075ec9e99ad690c3395bc4b313370b38ef355acdadcd122975b");
+        System.out.println(g1s.length);
+        System.out.println(g2s.length);
         boolean success = LibarkworksWrapper.getInstance().libarkworksPairingCheck(g1s, g2s, pairs);
-        assertFalse("Pairing check should NOT be successful", success);
+        assertTrue("Pairing check should be successful", success);
     }
 
     private static byte[] decimalStringToBytes(String decimal) {
         byte[] bytes = new BigInteger(decimal).toByteArray();
         return concat(new byte[32 - bytes.length], bytes);
+    }
+
+    private static byte[] hexToBytes(String hex) {
+        return HexBin.decode(hex);    
     }
 
     private static byte[][] getG1XY(byte[] g1) {
