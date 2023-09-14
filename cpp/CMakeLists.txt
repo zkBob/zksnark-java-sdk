@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 
 project(zksnark-java-sdk)
-# This flag allows linking both 'libarkworks' and 'librustzcash' within the same project. 
-# It should be safe as long as the same version of the Rust toolchain is used to build both libraries.
-# set(LINK_FLAGS "-Wl,--allow-multiple-definition")
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_BUILD_TYPE Release)
@@ -135,17 +133,17 @@ ADD_LIBRARY(zksnarkjni
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	target_link_libraries(zksnarkjni
-		${CMAKE_THREAD_LIBS_INIT}
-		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.dylib"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.dylib"
-		${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
+			${CMAKE_THREAD_LIBS_INIT}
+			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.dylib"
+			${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
 		)
 else()
 	target_link_libraries(zksnarkjni
-		${CMAKE_THREAD_LIBS_INIT}
-		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
-		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.dylib"
-		${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
+			${CMAKE_THREAD_LIBS_INIT}
+			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.so"
+			${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
 		)
 endif()
 
