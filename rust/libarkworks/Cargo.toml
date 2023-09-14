@@ -6,7 +6,7 @@ edition = "2021"
 [lib]
 name = "arkworks"
 path = "src/lib.rs"
-crate-type = ["staticlib", "cdylib"]
+crate-type = ["cdylib"]
 
 [dependencies]
 libc = "0.2"

@@ -2,7 +2,7 @@
 #include "libarkworks.h"
 #include <iostream>
 
-jboolean bool2jboolean(bool b) {
+jboolean bool2jbool(bool b) {
     if (b) {
         return JNI_TRUE;
     } else {
@@ -26,7 +26,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Libarkworks_00024Libarkw
     bool result = libarkworks_g1_is_valid(x_p, y_p);
     env->ReleaseByteArrayElements(x, (jbyte*) x_p, 0);
     env->ReleaseByteArrayElements(y, (jbyte*) y_p, 0);
-    return bool2jboolean(result);
+    return bool2jbool(result);
 }
 
 /*
@@ -49,7 +49,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Libarkworks_00024Libarkw
     env->ReleaseByteArrayElements(b, (jbyte*) b_p, 0);
     env->ReleaseByteArrayElements(c, (jbyte*) c_p, 0);
     env->ReleaseByteArrayElements(d, (jbyte*) d_p, 0);
-    return bool2jboolean(result);
+    return bool2jbool(result);
 }
 
 /*
@@ -70,7 +70,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Libarkworks_00024Libarkw
     env->ReleaseByteArrayElements(a, (jbyte*) a_p, 0);
     env->ReleaseByteArrayElements(b, (jbyte*) b_p, 0);
     env->ReleaseByteArrayElements(result, (jbyte*) result_p, 0);
-    return bool2jboolean(success);
+    return bool2jbool(success);
 }
 
 /*
@@ -91,7 +91,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Libarkworks_00024Libarkw
     env->ReleaseByteArrayElements(p, (jbyte*) p_p, 0);
     env->ReleaseByteArrayElements(s, (jbyte*) s_p, 0);
     env->ReleaseByteArrayElements(result, (jbyte*) result_p, 0);
-    return bool2jboolean(success);
+    return bool2jbool(success);
 }
 
 /*
@@ -110,7 +110,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Libarkworks_00024Libarkw
     bool success = libarkworks_pairing_check(g1s_p, g2s_p, pairs);
     env->ReleaseByteArrayElements(g1s, (jbyte*) g1s_p, 0);
     env->ReleaseByteArrayElements(g2s, (jbyte*) g2s_p, 0);
-    return bool2jboolean(success);
+    return bool2jbool(success);
 }
 
 /*
