@@ -131,21 +131,12 @@ ADD_LIBRARY(zksnarkjni
         ${zksnark_srcs}
 		)
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	target_link_libraries(zksnarkjni
-			${CMAKE_THREAD_LIBS_INIT}
-			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
-			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.dylib"
-			${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
-		)
-else()
-	target_link_libraries(zksnarkjni
-			${CMAKE_THREAD_LIBS_INIT}
-			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
-			"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.so"
-			${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
-		)
-endif()
+target_link_libraries(zksnarkjni
+		${CMAKE_THREAD_LIBS_INIT}
+		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.a"
+		${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
+	)
 
 add_dependencies(zksnarkjni rustzcash)
 add_dependencies(zksnarkjni libsodium)
@@ -156,7 +147,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/linux)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/META-INF/native/linux64)
 else()
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/META-INF/native/osx64)
 endif()
